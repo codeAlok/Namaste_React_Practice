@@ -25,5 +25,38 @@ const jsxHeading = ( <h1 id="heading" className="head">
     </h1> 
 ); 
 
-root.render(jsxHeading);
+// root.render(jsxHeading);
 
+
+// *********** React functional Component ************
+// below both functional component syntax is valid 
+const HeadingComponent = () => {
+    return <h1>Namaste react in Functional component</h1>;
+}
+
+const HeadingComponent2 = () => (<h1>Namaste react in Functional component</h1>);
+
+
+// ** component composition (can write components inside component) **
+// ** Can include any kind of JS Expression in JSX, by writing expression inside { js expression } **
+// ** JSX handle (Cross Site Scripting) . ??
+const Title = () => (
+    <div id="container">
+
+        <h2> {200 + 300 - 50} </h2>
+        {console.log("Js expression inside JSX")}
+        {jsxHeading}
+
+        {/* can execute component in all these way */}
+        {HeadingComponent2()}
+        <HeadingComponent2 />
+        <HeadingComponent2></HeadingComponent2>
+
+        <h1>This is title component heading</h1>
+        <HeadingComponent />   
+    </div>
+);
+
+// ** enclose component_name inside angular bracket < />
+// root.render(HeadingComponent);  // not work
+root.render( <Title /> ); 
