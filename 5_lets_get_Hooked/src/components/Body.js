@@ -1,21 +1,33 @@
 import RestaurantCard from "./RestaurantCard";
-import { useState } from "react";
-import resList from "../utils/mockData";
+import { useState, useEffect } from "react";
 
 
 // ** Body (main container) component **
 const Body = () => {
 
-    // **** local State variable (super powerful variable)
-    //  ** both work same
-    // let [listOfRestaurants] = useState([]);    // using useState Hook
-    // let listOfRestaurants2 = [];               // using Normal js variable
-    // listOfRestaurants2 = ["abc", "sdf"];       // nomrmal var can be update like this
-    // listOfRestaurants = ["abc", "sdf"];        // can't change state var like this
+    // state variable
+    const [listOfRestaurants, setListOfRestaurants] = useState([]);
 
-    // to update state variable , include another method to array as parameter
-    // Best practice [ give same name as of state var including "set" in start]
-    const [listOfRestaurants, setListOfRestaurants] = useState(resList);
+    // *** useEffect() Hook ***
+    useEffect( ()=> {
+        fetchData();
+    }, [] );
+
+    // **** function to fetch Live API Data and Apply to our Project ****
+    const fetchData = async () => {
+        const data = await fetch(
+            "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+        );
+
+        const json = await data.json();
+
+        setListOfRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+    };
+
+    // if no data loaded
+    if(listOfRestaurants.length === 0) {
+        return ( <h1>Loading.....</h1>);
+    }
 
     return (
         <div className="body">
@@ -27,7 +39,7 @@ const Body = () => {
                             (res) => res.info.avgRating > 4
                         );
 
-                        setListOfRestaurants(filteredList); //updating state variable (reRender this component)
+                        setListOfRestaurants(filteredList); //updating state variable
                     }}
                 >
                     Top rated restaurant
