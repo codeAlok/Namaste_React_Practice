@@ -1,5 +1,6 @@
 import RestaurantCard from "./RestaurantCard";
 import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 
 // ** Body (main container) component **
@@ -24,12 +25,8 @@ const Body = () => {
         setListOfRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
     };
 
-    // if no data loaded
-    if(listOfRestaurants.length === 0) {
-        return ( <h1>Loading.....</h1>);
-    }
-
-    return (
+    // using conditional rendering (? :)
+    return listOfRestaurants.length === 0 ? <Shimmer /> : (
         <div className="body">
             <div className="filter">
                 <button 

@@ -67,3 +67,22 @@ li{
     object-fit: cover;
 
 }
+
+.shimmer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.shimmer-card {
+    background-color: rgb(204, 204, 204);
+    width: 20vw;
+    height: 30vh;
+    margin: 1rem;
+}
+
+.login {
+    padding: 0.5rem;
+}
