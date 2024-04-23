@@ -38,8 +38,9 @@ li{
     font-size: 1.2rem;
 }
 
-.filter-btn {
-    padding: 0.8rem;
+.filter-btn, .search-btn, .search-box {
+    padding: 0.5rem;
+    margin-right: 0.2rem;
 }
 
 .res-container {

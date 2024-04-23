@@ -6,8 +6,11 @@ import Shimmer from "./Shimmer";
 // ** Body (main container) component **
 const Body = () => {
 
+    // Whenever state variable updates, React triggers a reconciliation cycle ( re-renders the component)
     // state variable
     const [listOfRestaurants, setListOfRestaurants] = useState([]);
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const [searchText, setSearchText] = useState("");
 
     // *** useEffect() Hook ***
     useEffect( ()=> {
@@ -23,12 +26,39 @@ const Body = () => {
         const json = await data.json();
 
         setListOfRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+        // keeping copy of api data for filter / other purposes
+        setFilteredRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants); 
     };
 
     // using conditional rendering (? :)
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
         <div className="body">
             <div className="filter">
+                {/* search area */}
+                <input
+                    type="text"
+                    className="search-box"
+                    value={searchText}
+                    onChange={(e) => {
+                        setSearchText(e.target.value); // reRender each time a letter/key press in input
+                    }}
+                />
+
+                <button
+                    className="search-btn"
+                    onClick={() => {
+                        const filterRestaurant = listOfRestaurants.filter( 
+                            // convert both data first in lowercase
+                            (res) => res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                        );
+
+                        setFilteredRestaurants(filterRestaurant);
+                    }}
+                >
+                    Search
+                </button>
+                
+                {/* filter area */}
                 <button 
                     className="filter-btn"
                     onClick={ () => {
@@ -45,7 +75,7 @@ const Body = () => {
             <div className="res-container">
                 
                 {
-                    listOfRestaurants.map((restaurant) => (
+                    filteredRestaurants.map((restaurant) => (
                         <RestaurantCard key={restaurant.info.id} resData={restaurant} />
                     ))    
                 }
