@@ -92,3 +92,9 @@ li{
 .login {
     padding: 0.5rem;
 }
+
+.user-card {
+    border: 1px solid rgb(87, 86, 86);
+    margin: 1rem;
+    padding: 0.3rem;
+}
