@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
 import Header from "./components/Header"; // /Header or /Header.js (both work fine)
 import Body from "./components/Body.js";
 import About from "./components/About.js";
 import Contact from "./components/Contact.js";
 import Error from "./components/Error.js";
-import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
+import RestaurantMenu from "./components/RestaurantMenu.js";
  
 // ****** Main App Component (starting point) ******
 const AppLayout = () => {
@@ -37,6 +38,10 @@ const appRouter = createBrowserRouter([
             {
                 path: "/contact",
                 element: <Contact />,
+            },
+            {
+                path: "/restaurant/:resId",
+                element: <RestaurantMenu />,
             },
         ],
         errorElement: <Error />, 
