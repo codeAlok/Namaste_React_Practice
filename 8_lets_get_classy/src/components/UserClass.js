@@ -15,10 +15,21 @@ class UserClass extends React.Component {
             count2: 12,
         }
 
+        console.log(this.props.name + " child constructor");
+
+    }
+
+    // A function for class component which is called after constructor -> rendered -> componentDidMount()
+    // Called after the component Mounted/loaded on to webpage completely
+    componentDidMount() {
+        console.log(this.props.name + " child componentDidMount");
     }
 
     // render() method returning JSX
     render() {
+
+        console.log(this.props.name + " child rendered");
+
         // Destructuring
         const {name, location} = this.props;
         const {count, count2} = this.state;
