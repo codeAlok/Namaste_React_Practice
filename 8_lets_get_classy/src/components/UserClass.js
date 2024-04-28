@@ -11,53 +11,88 @@ class UserClass extends React.Component {
         //** to create state variable in class component**
         // ** Here this.state={} is a large object which can hold lots of state variable
         this.state = {
-            count: 0,
-            count2: 12,
+            userInfo: {
+                name: "Dummy",
+                location: "Default",
+            },
         }
 
-        console.log(this.props.name + " child constructor");
+        // console.log(this.props.name + " child constructor");
 
     }
 
     // A function for class component which is called after constructor -> rendered -> componentDidMount()
     // Called after the component Mounted/loaded on to webpage completely
-    componentDidMount() {
-        console.log(this.props.name + " child componentDidMount");
+
+    async componentDidMount() {
+        // console.log(this.props.name + " child componentDidMount");
+        // **** Github API call ****
+
+        const data = await fetch("https://api.github.com/users/codealok");
+        const json = await data.json();
+
+        this.setState({
+            userInfo: json,
+        });
+
+        console.log(json);
     }
+
+
+    // **** Called after state variable update and reRender component *****
+    componentDidUpdate() {
+        console.log("componentDidUpdate called");
+    }
+
+    // ***** Called after our component will unMount or removed from page or we move to another page ****
+    componentWillUnmount() {
+        console.log("componentWillUnmount called");
+    }
+
 
     // render() method returning JSX
     render() {
 
-        console.log(this.props.name + " child rendered");
+        // console.log(this.props.name + " child rendered");
 
         // Destructuring
-        const {name, location} = this.props;
-        const {count, count2} = this.state;
+        const {name, location, avatar_url} = this.state.userInfo;
 
         return (
             <div className="user-card">
                 <h1>Inside Class Component</h1>
 
-                <p>Count: {count}</p>
-                <button
-                    onClick={ () => {
-                        // Never update state variable directly like this
-
-                        // must use this.setState({ }) to update state variable in class component (takes an object)
-                        this.setState({
-                            count: this.state.count + 1,
-                        });
-                    }}
-                >
-                    Count Increase
-                </button>
-
+                <img src={avatar_url}/>
                 <h2>Name: {name}</h2>          
                 <h3>Location: {location}</h3>
-                <h4>Contact: @codealok </h4>
+                <h4>Contact: @codealok</h4>
             </div>
         );
     }
 }
 
 export default UserClass;
+
+
+/* NOTE:  (Never compare React Lifecycle with functional components)
+
+    -- useEffect()  and componentWillMount() completely diffrent way.
+    -- All the three componentWillMount(), componentDidUpdate(), componentWillMount(), functionality is mostly handled by useEffect() Hook alone and with lesser Code.
+
+*/
+
+/*
+ ---- Mounting cycle ----
+    --constructor (with dummy)
+    --Render (dummy)
+        - update dom (with dummy data)
+    --ComponentDidMount()
+        - API call
+        - this.setState() -> state variable is updated
+
+ ---- Updation cycle ----
+    -- reRender with Api Data
+        - Updates Dom
+    -- ComponentDidUpdate() called
+
+*/

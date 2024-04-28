@@ -10,16 +10,16 @@ class About extends Component {
     constructor(props) {
         super(props);
 
-        console.log("parent constructor");
+        // console.log("parent constructor");
     }
 
     componentDidMount() {
-        console.log("parent componentDidMount");
+        // console.log("parent componentDidMount");
     }
 
     render() {
 
-        console.log("parent rendered");
+        // console.log("parent rendered");
 
         return (
             <div>
@@ -27,7 +27,6 @@ class About extends Component {
                 <h4>Know more about Me</h4>
     
                 <UserClass name={"first"} location={"India"}/>
-                <UserClass name={"second"} location={"India"}/>
             </div>
         );
     }
