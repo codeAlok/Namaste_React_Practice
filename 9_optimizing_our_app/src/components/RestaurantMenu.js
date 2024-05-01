@@ -1,30 +1,13 @@
-import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";  // hook to catch path parameter
-import { MENU_API } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 
 const RestaurantMenu = () => {
 
-    const [resInfo, setResInfo] = useState(null);
-
     const {resId} = useParams(); // resId is comming from path provided "/restaurant/:resId" (ex: "/restaurant/452" or "/restaurant/674"  diffrent for diffrent restaurant to load dynamic page)
 
-    useEffect(() => {
-        fetchMenu();
-    }, []);
-
-    // *** Api call for restaurantMenu of swiggy restaurant ***
-    const fetchMenu = async () => {
-        const data = await fetch(
-            MENU_API + resId + "&catalog_qa=undefined&isMenuUx4=true&submitAction=ENTER"
-        );
-
-        const json = await data.json();
-
-        setResInfo(json.data);
-        console.log(json);
-    }
+    const resInfo = useRestaurantMenu(resId); // Custom Hook returning API Data matching resId
 
     // *** till data not fetched show this ***
     if(resInfo === null) return <Shimmer />;
