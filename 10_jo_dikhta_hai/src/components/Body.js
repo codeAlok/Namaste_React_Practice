@@ -28,6 +28,9 @@ const Body = () => {
         const json = await data.json();
 
         setListOfRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+
+        console.log(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants)
+        console.log(json.data.cards)
         // keeping copy of api data for filter / other purposes
         setFilteredRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants); 
     };
@@ -43,11 +46,11 @@ const Body = () => {
     // using conditional rendering (? :)
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
         <div className="body">
-            <div className="filter">
+            <div className="filter m-4">
                 {/* search area */}
                 <input
                     type="text"
-                    className="search-box"
+                    className=" p-2 border border-solid border-black"
                     value={searchText}
                     onChange={(e) => {
                         setSearchText(e.target.value); // reRender each time a letter/key press in input
@@ -55,7 +58,7 @@ const Body = () => {
                 />
 
                 <button
-                    className="search-btn"
+                    className=" m-2 p-2 bg-green-300 rounded-lg"
                     onClick={() => {
                         const filterRestaurant = listOfRestaurants.filter( 
                             // convert both data first in lowercase
@@ -70,7 +73,7 @@ const Body = () => {
                 
                 {/* filter area */}
                 <button 
-                    className="filter-btn"
+                    className=" p-2 bg-gray-300 rounded-lg"
                     onClick={ () => {
                         const filteredList = listOfRestaurants.filter(
                             (res) => res.info.avgRating > 4
@@ -82,7 +85,7 @@ const Body = () => {
                     Top rated restaurant
                 </button>
             </div>
-            <div className="res-container">
+            <div className="flex flex-wrap justify-center">
                 
                 {
                     filteredRestaurants.map((restaurant) => (
