@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withTopRatedLabel} from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
@@ -14,6 +14,9 @@ const Body = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchText, setSearchText] = useState("");
 
+    // Higherorder component taking a component & returning updated component
+    const RestaurantCardTopRated = withTopRatedLabel(RestaurantCard);
+
     // *** useEffect() Hook ***
     useEffect( ()=> {
         fetchData();
@@ -28,9 +31,6 @@ const Body = () => {
         const json = await data.json();
 
         setListOfRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
-
-        console.log(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants)
-        console.log(json.data.cards)
         // keeping copy of api data for filter / other purposes
         setFilteredRestaurants(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants); 
     };
@@ -89,8 +89,15 @@ const Body = () => {
                 
                 {
                     filteredRestaurants.map((restaurant) => (
-                        <Link key={restaurant.info.id} to={"/restaurant/" + restaurant.info.id}> 
-                            <RestaurantCard resData={restaurant} /> 
+                        <Link key={restaurant.info.id} to={"/restaurant/" + restaurant.info.id}>
+
+                            {/* if the restaurant (avgRating >= 4.5), then add a top_rated label to it  */}
+
+                            {(restaurant.info.avgRating >= 4.5) 
+                                ? <RestaurantCardTopRated resData={restaurant}/>
+                                : <RestaurantCard resData={restaurant} />
+                            }
+                             
                         </Link>
                     ))    
                 }
