@@ -1,6 +1,7 @@
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";  // hook to catch path parameter
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
 
 
 const RestaurantMenu = () => {
@@ -21,29 +22,25 @@ const RestaurantMenu = () => {
         avgRating 
     } = resInfo.cards[2].card.card.info;
 
-
-    // **** Solved issue related to fetching datas Recommended_menu list (some times it come at card[1] / card[2] , due to top_picks data) ****
-    const cardObject = resInfo.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card;
-    const isPresent = Object.keys(cardObject).includes("itemCards");
-
-    // Destructuring Recommended_menu list from RestaurantMenu
-    const { itemCards } = (isPresent ? resInfo.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card : resInfo.cards[4].groupedCard.cardGroupMap.REGULAR.cards[2].card.card);
+    // *** select only ItemCategory_card data from all cards data ***
+    const categories = 
+        resInfo.cards[4].groupedCard.cardGroupMap.REGULAR.cards.filter( 
+            (c) => 
+                c.card.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" 
+        );
 
     return (
-        <div className="menu">
-            <h1>{name}</h1>
-            <h3>{cuisines.join(", ")}</h3>
-            <h3>{costForTwoMessage}</h3>
-            <h3>{avgRating}</h3>
+        <div className="text-center">
+            <h1 className="font-bold my-4 text-2xl">{name}</h1>
+            <p className="font-bold text-lg">
+                {cuisines.join(", ")} - {costForTwoMessage} 
+            </p>
 
-            <ul>
-                {itemCards.map( (item) => (
-                    <li key={item.card.info.id}>
-                        {item.card.info.name} - {" RS."}
-                        {item.card.info.price / 100 || item.card.info.defaultPrice /100}
-                    </li> 
-                ))}
-            </ul>
+            {/* categories accordian (dropdown menu) */}
+
+            { categories.map( (category) => (
+                <RestaurantCategory key={category.card.card.title} data={category.card.card}/>
+            ))}
         </div>
     );
 };
