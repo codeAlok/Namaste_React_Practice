@@ -1,4 +1,4 @@
-import User from "./User";
+import UserContext from "../utils/UserContext";
 import UserClass from "./UserClass";
 import { Component } from "react"; 
 
@@ -25,6 +25,13 @@ class About extends Component {
             <div>
                 <h1>About Us page</h1>
                 <h4>Know more about Me</h4>
+
+                {/* using context in class component (older and 2nd way to use context) */}
+                <UserContext.Consumer>
+                    {({loggedInUser}) => (
+                        <h1 className="text-xl font-bold">User: {loggedInUser}</h1>
+                    )}
+                </UserContext.Consumer>
     
                 <UserClass name={"first"} location={"India"}/>
             </div>

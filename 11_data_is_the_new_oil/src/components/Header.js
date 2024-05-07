@@ -1,12 +1,15 @@
 import { LOGO_URL } from "../utils/constants";
-import {useState} from "react";
+import {useState, useContext} from "react";
 import { Link } from "react-router-dom"; // A component used instead of anchor tag
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Header = () => {
     const [btnName, setBtnName] = useState("login");
 
     const onlineStatus = useOnlineStatus();
+
+    const {loggedInUser} = useContext(UserContext);
 
     return (
         <div className="flex justify-between font-semibold bg-gray-200 mb-2 sm:bg-yellow-50 lg:bg-green-100">
@@ -32,6 +35,8 @@ const Header = () => {
                     >
                         {btnName}
                     </button>
+
+                    <li className="px-2">{loggedInUser}</li>
                 </ul>
             </div>
         </div>

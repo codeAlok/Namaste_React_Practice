@@ -1,8 +1,9 @@
 import RestaurantCard, {withTopRatedLabel} from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 
 // ** Body (main container) component **
@@ -42,6 +43,8 @@ const Body = () => {
             <h1>look like you are offline, Please check your internet connection</h1>
         )
     }
+
+    const {loggedInUser, setUserName} = useContext(UserContext); 
 
     // using conditional rendering (? :)
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
@@ -84,6 +87,17 @@ const Body = () => {
                 >
                     Top rated restaurant
                 </button>
+
+                {/* *** to update context data everywhere(global in whole app) through input data *** */}
+                <input
+                    type="text"
+                    className="mx-2 p-2 border border-solid border-black"
+                    value={loggedInUser}
+                    onChange={(e) => {
+                        setUserName(e.target.value); // update context each time a letter/key press
+                    }}
+                />
+
             </div>
             <div className="flex flex-wrap justify-center">
                 
