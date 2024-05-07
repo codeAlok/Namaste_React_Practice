@@ -2,6 +2,7 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";  // hook to catch path parameter
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 
 const RestaurantMenu = () => {
@@ -9,6 +10,8 @@ const RestaurantMenu = () => {
     const {resId} = useParams(); // resId is comming from path provided "/restaurant/:resId" (ex: "/restaurant/452" or "/restaurant/674"  diffrent for diffrent restaurant to load dynamic page)
 
     const resInfo = useRestaurantMenu(resId); // Custom Hook returning API Data matching resId
+
+    const [showIndex, setShowIndex] = useState(0);
 
     // *** till data not fetched show this ***
     if(resInfo === null) return <Shimmer />;
@@ -38,8 +41,13 @@ const RestaurantMenu = () => {
 
             {/* categories accordian (dropdown menu) */}
 
-            { categories.map( (category) => (
-                <RestaurantCategory key={category.card.card.title} data={category.card.card}/>
+            { categories.map( (category, index) => (
+                <RestaurantCategory 
+                    key={category.card.card.title} 
+                    data={category.card.card}
+                    showItems = {index === showIndex ? true : false}
+                    setShowIndex= {() => setShowIndex(index)}
+                />
             ))}
         </div>
     );

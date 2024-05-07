@@ -1,12 +1,10 @@
 import { useState } from "react";
 import ItemList from "./ItemList";
 
-const RestaurantCategory = ({ data }) => {
-
-    const [showItems, setShowItems] = useState(false);
+const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
 
     const handleClick = () => {
-        setShowItems(!showItems); // if true, set false and if false, set true (toggle feature)
+        setShowIndex(); // updating state of its parent component indirectly (LIFTING THE STATE UP)
     }
 
     return (
