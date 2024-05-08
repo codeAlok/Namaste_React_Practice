@@ -8,7 +8,8 @@ import Contact from "./components/Contact.js";
 import Error from "./components/Error.js";
 import RestaurantMenu from "./components/RestaurantMenu.js";
 import UserContext from "./utils/UserContext.js";
- 
+import appStore from "./utils/appStore.js"; 
+import {Provider} from "react-redux";
 
 // **** Lazy loading ****
 // **** Wrap component imported through this way inside <Suspense> component provided by react (to not show error between the loading time of this component) ****
@@ -31,17 +32,22 @@ const AppLayout = () => {
 
     return (
 
-        // ** <usercontext.Provider>  update value of context everwhere under this component by "react" **
-        // *** also passing setUserName(), now can update statevariable from anywhere ***
-        <UserContext.Provider value={{loggedInUser: userName, setUserName}}>
-            <div className="app">
-                <Header />
+        // *** Wrapping everything inside <Provider> by (Redux), same as context of react ***
+        <Provider store={appStore}>
 
-                {/* Here <outlet /> will automatically replaced by component inside children of applayout in createBrowserRouter based on path searched */}
-                <Outlet />  
+            {/* ** <usercontext.Provider>  update value of context everwhere under this component by "react" ** */}
+             {/* *** also passing setUserName(), now can update statevariable from anywhere *** */}
+            <UserContext.Provider value={{loggedInUser: userName, setUserName}}>
+                <div className="app">
+                    <Header />
 
-            </div>
-        </UserContext.Provider>
+                    {/* Here <outlet /> will automatically replaced by component inside children of applayout in createBrowserRouter based on path searched */}
+                    <Outlet />  
+
+                </div>
+            </UserContext.Provider>
+
+        </Provider>
     );
 };
 

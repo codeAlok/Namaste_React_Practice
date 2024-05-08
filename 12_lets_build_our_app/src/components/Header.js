@@ -3,6 +3,7 @@ import {useState, useContext} from "react";
 import { Link } from "react-router-dom"; // A component used instead of anchor tag
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
     const [btnName, setBtnName] = useState("login");
@@ -10,6 +11,10 @@ const Header = () => {
     const onlineStatus = useOnlineStatus();
 
     const {loggedInUser} = useContext(UserContext);
+
+    // *** Subscribing to the store using a Selector Hook (react-redux) ***
+    const cartItems = useSelector((store) => store.cart.items);
+    console.log(cartItems);
 
     return (
         <div className="flex justify-between font-semibold bg-gray-200 mb-2 sm:bg-yellow-50 lg:bg-green-100">
@@ -26,7 +31,7 @@ const Header = () => {
                     <li className="px-2"> <Link to="/about">About Us</Link> </li>
                     <li className="px-2"> <Link to="/contact">Contact Us</Link> </li>
                     <li className="px-2"> <Link to="/grocery">Grocery</Link> </li>
-                    <li className="px-2"> <Link to="/cart">Cart</Link> </li>
+                    <li className="px-2"> <Link to="/cart">Cart ( {cartItems.length} items )</Link> </li>
                     <button 
                         className="p-1 rounded-sm text-white bg-blue-500"
                         onClick = {() => {
