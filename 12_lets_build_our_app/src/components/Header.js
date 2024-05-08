@@ -14,7 +14,7 @@ const Header = () => {
 
     // *** Subscribing to the store using a Selector Hook (react-redux) ***
     const cartItems = useSelector((store) => store.cart.items);
-    console.log(cartItems);
+    // console.log(cartItems);  // shows cart items
 
     return (
         <div className="flex justify-between font-semibold bg-gray-200 mb-2 sm:bg-yellow-50 lg:bg-green-100">
@@ -31,7 +31,11 @@ const Header = () => {
                     <li className="px-2"> <Link to="/about">About Us</Link> </li>
                     <li className="px-2"> <Link to="/contact">Contact Us</Link> </li>
                     <li className="px-2"> <Link to="/grocery">Grocery</Link> </li>
-                    <li className="px-2"> <Link to="/cart">Cart ( {cartItems.length} items )</Link> </li>
+                    <li className="px-2"> 
+                        <Link to="/cart">
+                            Cart <sup className="text-white bg-green-500 rounded-[50%] p-1 font-bold">{cartItems.length}</sup>
+                        </Link> 
+                    </li>
                     <button 
                         className="p-1 rounded-sm text-white bg-blue-500"
                         onClick = {() => {

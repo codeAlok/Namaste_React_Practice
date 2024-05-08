@@ -10,6 +10,7 @@ import RestaurantMenu from "./components/RestaurantMenu.js";
 import UserContext from "./utils/UserContext.js";
 import appStore from "./utils/appStore.js"; 
 import {Provider} from "react-redux";
+import Cart from "./components/Cart.js";
 
 // **** Lazy loading ****
 // **** Wrap component imported through this way inside <Suspense> component provided by react (to not show error between the loading time of this component) ****
@@ -78,6 +79,10 @@ const appRouter = createBrowserRouter([
             {
                 path: "/restaurant/:resId",
                 element: <RestaurantMenu />,
+            },
+            {
+                path: "/cart",
+                element: <Cart />,
             },
         ],
         errorElement: <Error />, 
